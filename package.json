@@ -7,13 +7,16 @@
   ],
   "license": "ISC",
   "author": "",
-  "type": "module",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
     "start": "node --env-file=.env dist/index.js",
     "dev": "nodemon",
-    "test": "jest"
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:e2e": "jest --config ./test/e2e/jest-e2e.config.ts --passWithNoTests",
+    "test:e2e:cov": "jest --config ./test/e2e/jest-e2e.config.ts --coverage"
   },
   "dependencies": {
     "express": "^5.2.1"
@@ -27,6 +30,7 @@
     "nodemon": "^3.1.14",
     "prettier": "^3.8.1",
     "supertest": "^7.2.2",
+    "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
