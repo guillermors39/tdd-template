@@ -1,11 +1,17 @@
-import express from 'express';
+import express, { Application } from 'express';
 
-async function main() {
+export const bootstrap = (): Application => {
     const app = express();
 
-    const port = process.env.PORT || 3000;
-
     app.use(express.json());
+
+    return app;
+};
+
+async function main() {
+    const app = bootstrap();
+
+    const port = process.env.PORT || 3000;
 
     app.listen(port, () => {
         console.log(`Server is running on port ${port}`);
