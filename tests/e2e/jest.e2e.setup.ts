@@ -1,9 +1,8 @@
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
-import { bootstrap } from '../../src';
+import { bootstrap } from '../../src/bootstrap';
 import nock from 'nock';
 import { Server } from 'http';
 import { Application } from 'express';
-import { promisify } from 'util';
 
 let container: StartedPostgreSqlContainer;
 let server: Server;
@@ -16,7 +15,7 @@ beforeAll(async () => {
     server = app.listen(3001);
 
     nock.disableNetConnect();
-    nock.enableNetConnect((host) => host.includes('localhost') || host.includes('127.0.0.1'));
+    nock.enableNetConnect();
 }, 50000);
 
 afterEach(() => {
@@ -24,21 +23,10 @@ afterEach(() => {
 });
 
 afterAll(async () => {
-    try {
-        nock.cleanAll();
-        nock.restore();
-
-        if (server && server.listening) {
-            const closeServer = promisify(server.close.bind(server));
-            await closeServer();
-        }
-
-        if (container) {
-            await container.stop({ timeout: 10000 });
-        }
-    } catch (error) {
-        console.error('Error during cleanup:', error);
-    }
+    nock.cleanAll();
+    nock.restore();
+    server.close();
+    await container.stop();
 }, 60000);
 
 export { app };
