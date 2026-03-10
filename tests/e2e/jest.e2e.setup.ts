@@ -31,12 +31,10 @@ afterAll(async () => {
         if (server && server.listening) {
             const closeServer = promisify(server.close.bind(server));
             await closeServer();
-            console.log('Server closed successfully');
         }
 
         if (container) {
             await container.stop({ timeout: 10000 });
-            console.log('Container stopped successfully');
         }
     } catch (error) {
         console.error('Error during cleanup:', error);
