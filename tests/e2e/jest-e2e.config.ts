@@ -16,9 +16,9 @@ const config: Config = {
     ],
     coverageDirectory: '<rootDir>/tests/e2e/coverage',
     setupFilesAfterEnv: ['<rootDir>/tests/e2e/jest.e2e.setup.ts'],
-    testTimeout: 60000, // 60 segundos para tests e2e
-    forceExit: true, // Fuerza la salida después de completar los tests
-    detectOpenHandles: true, // Detecta handles abiertos para debugging
+    testTimeout: 60000,
+    forceExit: true,
+    detectOpenHandles: true,
 };
 
 export default config;
