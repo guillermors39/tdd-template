@@ -1,15 +1,15 @@
-import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { bootstrap } from '../../src/bootstrap';
 import nock from 'nock';
 import { Server } from 'http';
 import { Application } from 'express';
+import { StartedMySqlContainer, MySqlContainer } from '@testcontainers/mysql';
 
-let container: StartedPostgreSqlContainer;
+let container: StartedMySqlContainer;
 let server: Server;
 let app: Application;
 
 beforeAll(async () => {
-    container = await new PostgreSqlContainer('postgres:13.3-alpine').withExposedPorts(5432).start();
+    container = await new MySqlContainer('mysql:8').withExposedPorts(5432).start();
 
     app = bootstrap();
     server = app.listen(3001);
