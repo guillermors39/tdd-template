@@ -1,4 +1,4 @@
-// import { createConnection } from 'mysql2/promise';
+import { createConnection } from 'mysql2/promise';
 
 export interface Type<T = any> extends Function {
     new (...args: any[]): T;
@@ -18,7 +18,7 @@ export type AppConfig = {
 
 export const DB_CONNECTION = Symbol('DatabaseConnection');
 
-class Container {
+export class Container {
     private instances: Map<string | symbol, any> = new Map();
 
     private static instance: Container;
@@ -50,14 +50,15 @@ class Container {
     }
 
     public async bootstrap({ database }: AppConfig): Promise<void> {
-        // const connection = await createConnection({
-        //     host: database.host,
-        //     user: database.username,
-        //     password: database.password,
-        //     port: database.port,
-        //     database: database.db,
-        // });
-        // this.register(DB_CONNECTION, connection);
+        const connection = await createConnection({
+            host: database.host,
+            user: database.username,
+            password: database.password,
+            port: database.port,
+            database: database.db,
+            namedPlaceholders: true,
+        });
+        this.register(DB_CONNECTION, connection);
     }
 
     public static getInstance(): Container {
